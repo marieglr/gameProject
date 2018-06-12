@@ -3,7 +3,7 @@ var canvas = document.getElementById('gameboard');
 var ctx = canvas.getContext('2d');
 
 
-function Character (x, name){
+function Character (x, name, img){
   this.x = x;
   this.y = 150;
   this.ego = 100;
@@ -11,8 +11,7 @@ function Character (x, name){
 }
 
 // Character.prototype.drawMe = function (characterName) {
-  //var img = new Image();
-  //this.img.src =
+
 //   ctx.beginPath();
 //   ctx.drawImage(this.img, this.x, this.y, 20, 20);
 //   ctx.closePath();
@@ -32,6 +31,8 @@ Character.prototype.shoot = function (){
 function Tweet (){
   xTweet = trump.x;
   yTweet = trump.y;
+  var img = new Image();
+  this.img.src = './images/Logo-Twitter.png'
 }
 
 Tweet.prototype.move = function (){
@@ -47,6 +48,8 @@ Tweet.prototype.hit = function(){
 function Rocket (){
   xRocket = kim.x;
   yRocket = kim.y;
+  var img = new Image();
+  this.img.src = './images/rocket-logo.png';
 }
 
 Rocket.prototype.move = function (){
@@ -75,23 +78,27 @@ Rocket.prototype.hit = function (){
 function UserBar () {
   this.x = 390;
   this.y = 380;
+
+  var img = new Image();
+  this.img.src = './images/HeartBar.png';
+
   document.onkeydown = (e) => {
     if (e.keyCode === 37) {
       this.move(-1);
     } else if (e.keyCode === 37) {
       this.move(-1);
+    } else if (e.keyCode === 32){
+      this.shoot();
     }
   }
 }
 
-//UserBar.prototype.draw = function (){
-  //var img = new Image();
-  //this.img.src =
-//   ctx.beginPath();
-//   ctx.drawImage(this.img, this.x, this.y, 20, 20);
-//   ctx.closePath();
-// }
-//}
+UserBar.prototype.draw = function () {
+  ctx.beginPath();
+  ctx.drawImage(this.img, this.x-10, this.y-10, 20, 20);
+  // ctx.stroke();
+  ctx.closePath();
+}
 
 UserBar.prototype.move = function (dx){
   var x = (this.x + dx) % 760;
@@ -105,6 +112,8 @@ UserBar.prototype.shoot = function (){
 function Heart (){
   xHeart = userBar.x;
   yHeart = userBar.y;
+  var img = new Image();
+  this.img.src = './images/like.png';
 }
 
 Heart.prototype.move = function (){
