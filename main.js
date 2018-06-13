@@ -8,8 +8,14 @@ var ctx = canvas.getContext('2d');
 canvas.width = 1200;
 canvas.height= 600;
 
-//General re-usable functions:
-//generaliser la fonction draw
+//GENERAL RE-USABLE FUNCTIONS
+
+//Draw objects on canvas
+function draw (object) {
+  ctx.beginPath();
+  ctx.drawImage(object.img, object.x, object.y, object.width, object.height);
+  ctx.closePath();
+}
 
 //Detect collision between two objects
 function collision(objA, objB) {
@@ -30,12 +36,6 @@ function Character (x, img, imgWidth){
   this.img = img;
   this.width = imgWidth;
   this.height = 100;
-}
-
-Character.prototype.draw = function () {
-  ctx.beginPath();
-  ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  ctx.closePath();
 }
 
 
@@ -72,18 +72,6 @@ Tweet.prototype.move = function (){
   this.x++;
 }
 
-// Tweet.prototype.hit = function(){
-//   if ( xTweet === kim.x){
-//     kim.ego -= 5;
-//   }
-// }
-
-Tweet.prototype.draw = function () {
-  ctx.beginPath();
-  ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  ctx.closePath();
-}
-
 //Rocket object and methods
 function Rocket (){
   this.x = kim.x;
@@ -105,11 +93,6 @@ Rocket.prototype.move = function (){
 //   }
 // }
 
-Rocket.prototype.draw = function () {
-  ctx.beginPath();
-  ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-  ctx.closePath();
-}
 
 //Have the characters randomly shoot tweets/rockets
 var tweets = [];
@@ -120,12 +103,10 @@ var addProjectile = setInterval(function(){
   tweets.push(newTweet);
   var newRocket = new Rocket;
   rockets.push(newRocket);
-}, 600);
+}, 2000);
 
 
-//Projectile.prototype.draw = function (){
-//   ctx.drawImage(this.img, this.x, this.y, 20, 20);
-//}
+
 
 //------------------------------------------------------------------------------------------------------------------------
 //USER BAR OBJECT AND METHODS
@@ -133,19 +114,14 @@ var addProjectile = setInterval(function(){
 
 //User Bar Prototype
 function UserBar () {
-  this.x = 580;
-  this.y = 580;
-
+  this.x = 555;
+  this.y = 555;
   this.img = new Image();
   this.img.src = "./images/HeartBar.png";
-
+  this.height = 50;
+  this.width = 50;
 }
 
-UserBar.prototype.draw = function () {
-  ctx.beginPath();
-  ctx.drawImage(this.img, this.x-25, this.y-25, 50, 50);
-  ctx.closePath();
-}
 
 UserBar.prototype.move = function (dx){
   var x = (this.x + dx) % 1100;
@@ -155,6 +131,7 @@ UserBar.prototype.shoot = function (){
   var newHeart = new Heart;
   hearts.push(newHeart);
 }
+
 //Creation of the userBar
 var userBar = new UserBar;
 var hearts = [];
@@ -181,14 +158,11 @@ Heart.prototype.move = function (){
 //   } else continue;
 // }
 
-Heart.prototype.draw = function () {
-  ctx.beginPath();
-  ctx.drawImage(this.img, this.x-25, this.y-25, 50, 50);
-  ctx.closePath();
-}
 
-
+//----------------------------------------------------------------------------------------------------------
 //GAME OBJECT
+//----------------------------------------------------------------------------------------------------------
+
 function Game (){
   //setTimeout(function(){
 
@@ -199,9 +173,9 @@ function Game (){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     //redraw characters and user bar
-    userBar.draw();
-    trump.draw();
-    kim.draw();
+    draw(userBar);
+    draw(trump);
+    draw(kim);
 
     //Manage heart drawing and interaction with projectiles
     hearts.forEach(function(oneHeart){
@@ -221,7 +195,7 @@ function Game (){
         }
 
         //Draw tweet
-        oneTweet.draw();
+        draw(oneTweet);
         oneTweet.move();
       })
 
@@ -243,7 +217,7 @@ function Game (){
           }
         };
 
-        oneRocket.draw();
+        draw(oneRocket);
         oneRocket.move();
       })
 
@@ -253,7 +227,7 @@ function Game (){
     })
   }, 1000/60);
 
-  //userBar.move();
+
   //}, 180000);
 }
 
