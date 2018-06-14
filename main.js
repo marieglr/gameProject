@@ -13,7 +13,7 @@ function Board() {
   this.x = 0;
   this.y = 0;
   this.img = new Image();
-  this.img.src = "images/background.jpg";
+  this.img.src = "images/bgmap.jpg";
   this.height = canvas.height;
   this.width = canvas.width;
 }
@@ -96,7 +96,7 @@ function Tweet() {
 }
 
 Tweet.prototype.move = function() {
-  this.x += 15;
+  this.x += 20;
 };
 
 //Rocket object and methods
@@ -111,7 +111,7 @@ function Rocket() {
 }
 
 Rocket.prototype.move = function() {
-  this.x -= 15;
+  this.x -= 20;
 };
 
 // Rocket.prototype.hitTarget = function (){
@@ -129,7 +129,7 @@ var addProjectile = setInterval(function() {
   tweets.push(newTweet);
   var newRocket = new Rocket();
   rockets.push(newRocket);
-}, 2000);
+}, 1000);
 
 //------------------------------------------------------------------------------------------------------------------------
 //USER BAR OBJECT AND METHODS
@@ -247,9 +247,8 @@ var drawLoop = setInterval(function() {
 
   //Redraw the ego points of each character after being hit
   ctx.font = "bold 45px monospace";
-  ctx.fillStyle = "#b30000";
+  ctx.fillStyle = "black";
   ctx.fillText("Ego level :" + trump.ego, 40, 150);
-  ctx.fillStyle = "#b30000";
   ctx.fillText("Ego level :" + kim.ego, kim.x - 100, 150);
 
   //erase tweets that have been intercepted by a heart
