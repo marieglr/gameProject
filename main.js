@@ -5,15 +5,15 @@
 //Initialising the canvas
 var canvas = document.getElementById("gameboard");
 var ctx = canvas.getContext("2d");
-canvas.width = 1200 * 1.5;
-canvas.height = 600 * 1.5;
+canvas.width = 1200;
+canvas.height = 600;
 
 //creating the board
 function Board() {
   this.x = 0;
   this.y = 0;
   this.img = new Image();
-  this.img.src = "images/bgmap.jpg";
+  this.img.src = "images/mapclaire.jpg";
   this.height = canvas.height;
   this.width = canvas.width;
 }
@@ -60,11 +60,11 @@ function collision(objA, objB) {
 
 function Character(x, img, imgWidth) {
   this.x = x;
-  this.y = 200;
+  this.y = 80;
   this.ego = 100;
   this.img = img;
   this.width = imgWidth;
-  this.height = 100 * 2.5;
+  this.height = 100 * 1.5;
 }
 
 // Characters creation
@@ -72,13 +72,13 @@ function Character(x, img, imgWidth) {
 var trumpimg = new Image();
 trumpimg.src = "images/Trump.png";
 //creation of Trump
-var trump = new Character(25, trumpimg, 98 * 2.5);
+var trump = new Character(25, trumpimg, 98 * 1.5);
 
 //Load image for Kim
 var kimimg = new Image();
 kimimg.src = "images/KimCharacter.png";
 //creation of Kim
-var kim = new Character(canvas.width - 300, kimimg, 81 * 2.5);
+var kim = new Character(canvas.width - 150, kimimg, 81 * 1.5);
 
 //------------------------------------------------------------------------------------------------------------------------
 //CHARACTERS PROJECTILES
@@ -87,11 +87,11 @@ var kim = new Character(canvas.width - 300, kimimg, 81 * 2.5);
 //Tweet object and methods
 function Tweet() {
   this.x = trump.x + trump.width;
-  this.y = trump.y + 75;
+  this.y = trump.y + 25;
   this.img = new Image();
   this.img.src = "./images/Logo-Twitter.png";
-  this.height = 32 * 1.5;
-  this.width = 40 * 1.5;
+  this.height = 32;
+  this.width = 40;
   this.isIntercepted = false;
 }
 
@@ -102,11 +102,11 @@ Tweet.prototype.move = function() {
 //Rocket object and methods
 function Rocket() {
   this.x = kim.x;
-  this.y = kim.y + 150;
+  this.y = kim.y + 75;
   this.img = new Image();
   this.img.src = "./images/Rocket.png";
-  this.width = 40 * 1.5;
-  this.height = 40 * 1.5;
+  this.width = 40;
+  this.height = 40;
   this.isIntercepted = false;
 }
 
@@ -138,11 +138,11 @@ var addProjectile = setInterval(function() {
 //User Bar Prototype
 function UserBar() {
   this.x = canvas.width / 2;
-  this.y = canvas.height - 110;
+  this.y = canvas.height - 80;
   this.img = new Image();
   this.img.src = "./images/HeartBar.png";
-  this.height = 100;
-  this.width = 100;
+  this.height = 60;
+  this.width = 60;
 }
 
 // UserBar.prototype.move = function (dx){
@@ -164,8 +164,8 @@ function Heart() {
   this.y = userBar.y;
   this.img = new Image();
   this.img.src = "./images/like.png";
-  this.width = 40 * 1.5;
-  this.height = 40 * 1.5;
+  this.width = 40 * 1.2;
+  this.height = 40 * 1.2;
 }
 
 Heart.prototype.move = function() {
@@ -221,6 +221,7 @@ var drawLoop = setInterval(function() {
       //If Trump loses face: GAME OVER
       if (trump.ego <= 0) {
         clearInterval(drawLoop);
+        timer = 1;
       }
     }
 
@@ -237,6 +238,7 @@ var drawLoop = setInterval(function() {
       //if Kim loses face: GAME OVER - NUCLEAR WAR: YOUR KIDS WILL BE BORN WITH THREE LEGS AND ONLY ONE EYE
       if (kim.ego <= 0) {
         clearInterval(drawLoop);
+        timer = 1;
       }
     }
 
@@ -246,10 +248,13 @@ var drawLoop = setInterval(function() {
   });
 
   //Redraw the ego points of each character after being hit
-  ctx.font = "bold 45px monospace";
-  ctx.fillStyle = "black";
-  ctx.fillText("Ego level :" + trump.ego, 40, 150);
-  ctx.fillText("Ego level :" + kim.ego, kim.x - 100, 150);
+  ctx.font = "30px 'Kanit'";
+  ctx.fillStyle = "#f15b29";
+  ctx.fillText("Ego level: " + trump.ego, 40, 30);
+  ctx.fillText("Ego level: " + kim.ego, kim.x - 100, 30);
+  ctx.strokeStyle = "#931f20";
+  ctx.strokeText("Ego level: " + trump.ego, 40, 30);
+  ctx.strokeText("Ego level: " + kim.ego, kim.x - 100, 30);
 
   //erase tweets that have been intercepted by a heart
   tweets = tweets.filter(function(oneTweet) {
@@ -268,12 +273,12 @@ var body = document.querySelector("body");
 body.onkeydown = e => {
   // if (userBar.x >= 100 && userBar.x <= 1100){
   if (e.keyCode === 39) {
-    if (userBar.x <= 1800) {
+    if (userBar.x <= 1100) {
       userBar.x += 30;
       e.preventDefault();
     }
   } else if (e.keyCode === 37) {
-    if (userBar.x >= 250) {
+    if (userBar.x >= 100) {
       userBar.x -= 30;
       e.preventDefault();
     }

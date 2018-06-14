@@ -1,24 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Orbitron|Kanit" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <title>My Ironhack Game</title>
 </head>
+
 <body>
-<header>The Love-accross-borders Game Project</header>
+  <header>
+    <h1>Stop them by spreading love!</h1>
+  </header>
 
-<section class="layout">
-  <div class="timer">
-    <h2>Remaining time: <span></span></h2>
+  <section id="start-message">
+    <p></p>
+
+    <button>Start Game</button>
+  </section>
+
+  <section id="game" class="layout">
+    <div class="timer">
+      <h2>Time left: <span></span>
+      </h2>
+    </div>
+    <div class="container">
+    <div class="image-box1"><img src="images/DonaldFace.png" alt="Donald's face mask" height="150"></div>
+    <canvas id="gameboard"></canvas>
+    <div class="image-box2"><img src="images/KimFace.png" alt="Kim's face mask" height="150"></div>
   </div>
-  <canvas id="gameboard"></canvas>
-</section>
+  </section>
 
-<footer>Ironhack project#1 by Marie Gillier</footer>
+  <section id="user-win">
+    <p>Thank You for your dedication to cross-border love and understanding!</p>
+
+  </section>
+  <section id="trump-wins"></section>
+  <section id="kim-wins"></section>
+
+
+
+
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="main.js"></script>
 </body>
+
 </html>
