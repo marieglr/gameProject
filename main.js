@@ -5,8 +5,8 @@
 //Initialising the canvas
 var canvas = document.getElementById('gameboard');
 var ctx = canvas.getContext('2d');
-canvas.width = 1200;
-canvas.height= 600;
+canvas.width = 1200*1.8;
+canvas.height= 600*1.8;
 
 //creating the board
 function Board (){
@@ -72,7 +72,7 @@ var kim = new Character (canvas.width-300, kimimg, 81*3);
 //Tweet object and methods
 function Tweet (){
   this.x = trump.x+trump.width;
-  this.y = trump.y;
+  this.y = trump.y+75;
   this.img = new Image();
   this.img.src = './images/Logo-Twitter.png'
   this.height = 32*1.5;
@@ -87,7 +87,7 @@ Tweet.prototype.move = function (){
 //Rocket object and methods
 function Rocket (){
   this.x = kim.x;
-  this.y = kim.y;
+  this.y = kim.y+150;
   this.img = new Image();
   this.img.src = './images/Rocket.png';
   this.width = 40*1.5;
