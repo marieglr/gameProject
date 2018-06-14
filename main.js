@@ -5,8 +5,20 @@
 //Initialising the canvas
 var canvas = document.getElementById('gameboard');
 var ctx = canvas.getContext('2d');
-canvas.width = 1200;
-canvas.height= 600;
+canvas.width = 1200*1.8;
+canvas.height= 600*1.8;
+
+//creating the board
+function Board (){
+    this.x = 0;
+    this.y = 0;
+    this.img = new Image();
+    this.img.src = "images/background.jpg";
+    this.height = canvas.height;
+    this.width = canvas.width;
+  }
+
+var board = new Board();
 
 //GENERAL RE-USABLE FUNCTIONS
 
@@ -31,11 +43,11 @@ function collision(objA, objB) {
 
 function Character (x, img, imgWidth){
   this.x = x;
-  this.y = 100;
+  this.y = 200;
   this.ego = 100;
   this.img = img;
   this.width = imgWidth;
-  this.height = 100;
+  this.height = 100*3;
 }
 
 
@@ -44,14 +56,14 @@ function Character (x, img, imgWidth){
 var trumpimg = new Image();
 trumpimg.src = "images/Trump.png";
 //creation of Trump
-var trump = new Character(25, trumpimg, 98);
+var trump = new Character(25, trumpimg, 98*3);
 
 
 //Load image for Kim
 var kimimg = new Image();
 kimimg.src = "images/KimCharacter.png";
 //creation of Kim
-var kim = new Character (1125, kimimg, 81);
+var kim = new Character (canvas.width-300, kimimg, 81*3);
 
 //------------------------------------------------------------------------------------------------------------------------
 //CHARACTERS PROJECTILES
@@ -59,17 +71,17 @@ var kim = new Character (1125, kimimg, 81);
 
 //Tweet object and methods
 function Tweet (){
-  this.x = trump.x;
+  this.x = trump.x+trump.width;
   this.y = trump.y;
   this.img = new Image();
   this.img.src = './images/Logo-Twitter.png'
-  this.height = 32;
-  this.width = 40;
+  this.height = 32*1.5;
+  this.width = 40*1.5;
   this.isIntercepted = false;
 }
 
 Tweet.prototype.move = function (){
-  this.x++;
+  this.x+=5;
 }
 
 //Rocket object and methods
@@ -78,13 +90,13 @@ function Rocket (){
   this.y = kim.y;
   this.img = new Image();
   this.img.src = './images/Rocket.png';
-  this.width = 40;
-  this.height = 40;
+  this.width = 40*1.5;
+  this.height = 40*1.5;
   this.isIntercepted = false;
 }
 
 Rocket.prototype.move = function (){
-  this.x--;
+  this.x-=5;
 }
 
 // Rocket.prototype.hitTarget = function (){
@@ -114,18 +126,18 @@ var addProjectile = setInterval(function(){
 
 //User Bar Prototype
 function UserBar () {
-  this.x = 555;
-  this.y = 555;
+  this.x = canvas.width/2;
+  this.y = canvas.height-110;
   this.img = new Image();
   this.img.src = "./images/HeartBar.png";
-  this.height = 50;
-  this.width = 50;
+  this.height = 100;
+  this.width = 100;
 }
 
 
-UserBar.prototype.move = function (dx){
-  var x = (this.x + dx) % 1100;
-}
+// UserBar.prototype.move = function (dx){
+//   var x = (this.x + dx) % 1100;
+// }
 
 UserBar.prototype.shoot = function (){
   var newHeart = new Heart;
@@ -142,37 +154,34 @@ function Heart (){
   this.y = userBar.y;
   this.img = new Image();
   this.img.src = './images/like.png';
-  this.width = 40;
-  this.height = 40;
+  this.width = 40*1.5;
+  this.height = 40*1.5;
 }
 
 Heart.prototype.move = function (){
-  this.y--;
+  this.y-= 15;
 }
 
-// Heart.prototype.hit = function (){
-//   if ( xHeart === xTweet && yHeart === yTweet){
-
-//   } else if (xHeart === xRocket && yHeart === yRocket){
-
-//   } else continue;
-// }
-
 
 //----------------------------------------------------------------------------------------------------------
-//GAME OBJECT
+//GAME LOGIC
 //----------------------------------------------------------------------------------------------------------
+  //
 
-function Game (){
-  //setTimeout(function(){
+//If the user manage to keep the game going on for 2:30 without having the characters lose face, he wins yay yay!
+ var game = setTimeout(function(){
+  clearInterval(drawLoop);
+ }, 150000)
 
 
-  var drawLoop = setInterval(function(){
+var drawLoop = setInterval(function(){
+
 
     //erase the old drawings
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    //redraw characters and user bar
+    //redraw the background, the characters and user bar
+    draw(board);
     draw(userBar);
     draw(trump);
     draw(kim);
@@ -180,56 +189,78 @@ function Game (){
     //Manage heart drawing and interaction with projectiles
     hearts.forEach(function(oneHeart){
 
-      //manage tweets drawings and interaction with hearts and target
+      //manage tweets interaction with hearts
       tweets.forEach(function(oneTweet){
-        //if a heart intercepts a tweet, the tweet should be marked
         if (collision(oneHeart,oneTweet)){
-          oneTweet.isIntercepted === true;
+          oneTweet.isIntercepted = true;
         }
-        //if a tweet hits Kim, kim's ego gets damage
-        if(collision(oneTweet,kim)){
-          kim.ego -= 5;
-          if (kim.ego<=0){
-            clearInterval(drawLoop);
-          }
-        }
-
-        //Draw tweet
-        draw(oneTweet);
-        oneTweet.move();
       })
 
-      //erase tweets that have been intercepted by a heart
-      tweets.filter(function(oneTweet){
-        return !oneTweet.isIntercepted;
-      })
-
-      //manage rockets drawings and interaction with hearts and target
+      //manage rockets interaction with hearts
       rockets.forEach(function(oneRocket){
         if (collision(oneHeart,oneRocket)){
-          oneRocket.isIntercepted === true;
+          oneRocket.isIntercepted = true;
         };
-
-        if(collision(oneRocket,trump)){
-          trump.ego -= 5;
-          if (trump.ego<=0){
-            clearInterval(drawLoop);
-          }
-        };
-
-        draw(oneRocket);
-        oneRocket.move();
       })
 
-      rockets.filter(function(oneRocket){
-        return !oneRocket.isIntercepted;
-      })
+      //Draw hearts
+      draw(oneHeart);
+      oneHeart.move();
+    })
+
+    //manage rockets drawings and interaction with target
+    rockets.forEach(function(oneRocket){
+      if(collision(oneRocket,trump)){
+        oneRocket.isIntercepted = true;
+        trump.ego -= 5;
+
+        //If Trump loses face: GAME OVER
+        if (trump.ego<=0){
+          clearInterval(drawLoop);
+        }
+      };
+
+      draw(oneRocket);
+      oneRocket.move();
+    })
+
+    //manage tweets drawings and interaction with target
+    tweets.forEach(function(oneTweet){
+      //if a tweet hits Kim, kim's ego gets damage
+      if(collision(oneTweet,kim)){
+        oneTweet.isIntercepted = true;
+        kim.ego -= 5;
+        //if Kim loses face: GAME OVER - NUCLEAR WAR: YOUR KIDS WILL BE BORN WITH THREE LEGS AND ONLY ONE EYE
+        if (kim.ego<=0){
+          clearInterval(drawLoop);
+        }
+      }
+
+      //Draw tweet
+      draw(oneTweet);
+      oneTweet.move();
+    })
+
+    //Redraw the ego points of each character after being hit
+    ctx.font = "bold 45px monospace";
+    ctx.fillStyle = "#b30000";
+    ctx.fillText("Ego level :"+ trump.ego, 40, 150);
+    ctx.fillStyle = "#b30000";
+    ctx.fillText("Ego level :"+ kim.ego, kim.x-100, 150);
+
+    //erase tweets that have been intercepted by a heart
+    tweets = tweets.filter(function(oneTweet){
+      return !oneTweet.isIntercepted;
+    })
+
+    rockets = rockets.filter(function(oneRocket){
+      return !oneRocket.isIntercepted;
     })
   }, 1000/60);
 
 
-  //}, 180000);
-}
+  //}, 500);
+
 
 //-------------------------------------------------------------------------------------------------------------------
 //USER INPUT
@@ -237,21 +268,18 @@ function Game (){
 var body = document.querySelector("body");
 body.onkeydown = (e) => {
   if (e.keyCode === 39) {
-    userBar.x+= 5;
-    console.log("right");
+    userBar.x+= 30;
     e.preventDefault();
   } else if (e.keyCode === 37) {
-    userBar.x-= 5;
-    console.log("left")
+    userBar.x-= 30;
     e.preventDefault();
   } else if (e.keyCode === 32){
     userBar.shoot();
-    console.log("shoot")
     e.preventDefault();
   }
 }
 
-var game = new Game();
+
 
 
 
