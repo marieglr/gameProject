@@ -1,7 +1,11 @@
 //------------------------------------------------------------------------------------------------------------------------
 //GENERAL CODE
 //------------------------------------------------------------------------------------------------------------------------
+
+//Settings
 var zoomFactor = 0.8;
+var slowSpeed = 2;
+var highSpeed = 7;
 
 //Initialising the canvas
 var canvas = document.getElementById("gameboard");
@@ -97,7 +101,7 @@ function Tweet() {
 }
 
 Tweet.prototype.move = function() {
-  this.x += 8;
+  this.x += highSpeed;
 };
 
 //Create a second type of tweets that will move slower
@@ -109,7 +113,7 @@ function SlowTweet(x, img, width, height, isIntercepted) {
 }
 
 SlowTweet.prototype.move = function(){
-  this.x += 3;
+  this.x += slowSpeed;
 }
 
 
@@ -126,7 +130,7 @@ function Rocket() {
 }
 
 Rocket.prototype.move = function() {
-  this.x -= 8;
+  this.x -= highSpeed;
 };
 
 //Create a second type of rockets that will move slower
@@ -137,7 +141,7 @@ function SlowRocket(x, img, width, height, isIntercepted) {
 }
 
 SlowRocket.prototype.move = function(){
-  this.x -= 3;
+  this.x -= slowSpeed;
 }
 
 
@@ -159,7 +163,7 @@ function addProjectile() {
 
   //This anonymous function randomly calls the addProjectile function (setInterval can only have regular interval, I want irregularity)
 (function loop() {
-    var rand = Math.round(Math.random() * (8000 - 2000)) + 2000;
+    var rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
     setTimeout(function() {
             addProjectile();
             loop();
@@ -199,8 +203,8 @@ function Heart() {
   this.y = userBar.y;
   this.img = new Image();
   this.img.src = "./images/like.png";
-  this.width = 40 * 1.2;
-  this.height = 40 * 1.2;
+  this.width = 30;
+  this.height = 30;
 }
 
 Heart.prototype.move = function() {
