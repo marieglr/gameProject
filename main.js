@@ -84,52 +84,86 @@ var kim = new Character(canvas.width - 150, kimimg, 81 * 1.5);
 //CHARACTERS PROJECTILES
 //------------------------------------------------------------------------------------------------------------------------
 
-//Tweet object and methods
+//TWEETS object and methods
 function Tweet() {
   this.x = trump.x + trump.width;
   this.y = trump.y + 25;
   this.img = new Image();
   this.img.src = "./images/Logo-Twitter.png";
-  this.height = 32;
-  this.width = 40;
+  this.height = 24;
+  this.width = 30;
   this.isIntercepted = false;
 }
 
 Tweet.prototype.move = function() {
-  this.x += 20;
+  this.x += 10;
 };
 
-//Rocket object and methods
+//Create a second type of tweets that will move slower
+SlowTweet.prototype = Object.create(Tweet.prototype);
+
+function SlowTweet(x, img, width, height, isIntercepted) {
+  Tweet.call(this, x, img, width, height, isIntercepted);
+  this.y = trump.y + 45;
+}
+
+SlowTweet.prototype.move = function(){
+  this.x += 3;
+}
+
+
+
+//ROCKETS object and methods
 function Rocket() {
   this.x = kim.x;
   this.y = kim.y + 75;
   this.img = new Image();
   this.img.src = "./images/Rocket.png";
-  this.width = 40;
-  this.height = 40;
+  this.width = 30;
+  this.height = 30;
   this.isIntercepted = false;
 }
 
 Rocket.prototype.move = function() {
-  this.x -= 20;
+  this.x -= 10;
 };
 
-// Rocket.prototype.hitTarget = function (){
-//   if ( xRocket === trump.x){
-//     trump.ego -= 5;
-//   }
-// }
+//Create a second type of rockets that will move slower
+SlowRocket.prototype = Object.create(Rocket.prototype)
+function SlowRocket(x, img, width, height, isIntercepted) {
+  Rocket.call(this, x, img, width, height, isIntercepted);
+  this.y = kim.y + 30;
+}
 
-//Have the characters randomly shoot tweets/rockets
+SlowRocket.prototype.move = function(){
+  this.x -= 3;
+}
+
+
+//HAVE THE CHARACTERS RANDOMLY SHOOT PROJECTILES
 var tweets = [];
 var rockets = [];
 
-var addProjectile = setInterval(function() {
+  //This function adds amo in the array that will serve as a reserve for shootings
+function addProjectile() {
   var newTweet = new Tweet();
+  var newSlowTweet = new SlowTweet();
   tweets.push(newTweet);
+  tweets.push(newSlowTweet);
   var newRocket = new Rocket();
+  var newSlowRocket = new SlowRocket();
   rockets.push(newRocket);
-}, 1000);
+  rockets.push(newSlowRocket);
+}
+
+  //This anonymous function randomly calls the addProjectile function (setInterval can only have regular interval, I want irregularity)
+(function loop() {
+    var rand = Math.round(Math.random() * (8000 - 2000)) + 2000;
+    setTimeout(function() {
+            addProjectile();
+            loop();
+    }, rand);
+}());
 
 //------------------------------------------------------------------------------------------------------------------------
 //USER BAR OBJECT AND METHODS
@@ -221,7 +255,7 @@ var drawLoop = setInterval(function() {
       //If Trump loses face: GAME OVER
       if (trump.ego <= 0) {
         clearInterval(drawLoop);
-        timer = 1;
+        timer = 00;
       }
     }
 
@@ -238,7 +272,7 @@ var drawLoop = setInterval(function() {
       //if Kim loses face: GAME OVER - NUCLEAR WAR: YOUR KIDS WILL BE BORN WITH THREE LEGS AND ONLY ONE EYE
       if (kim.ego <= 0) {
         clearInterval(drawLoop);
-        timer = 1;
+        timer = 00;
       }
     }
 
