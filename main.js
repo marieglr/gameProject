@@ -1,12 +1,13 @@
 //------------------------------------------------------------------------------------------------------------------------
 //GENERAL CODE
 //------------------------------------------------------------------------------------------------------------------------
+var zoomFactor = 0.8;
 
 //Initialising the canvas
 var canvas = document.getElementById("gameboard");
 var ctx = canvas.getContext("2d");
-canvas.width = 1200;
-canvas.height = 600;
+canvas.width = 1200 * zoomFactor;
+canvas.height = 600 * zoomFactor;
 
 //creating the board
 function Board() {
@@ -63,8 +64,8 @@ function Character(x, img, imgWidth) {
   this.y = 80;
   this.ego = 100;
   this.img = img;
-  this.width = imgWidth;
-  this.height = 100 * 1.5;
+  this.width = imgWidth * zoomFactor;
+  this.height = 100 * 1.5 * zoomFactor;
 }
 
 // Characters creation
@@ -96,7 +97,7 @@ function Tweet() {
 }
 
 Tweet.prototype.move = function() {
-  this.x += 10;
+  this.x += 8;
 };
 
 //Create a second type of tweets that will move slower
@@ -125,7 +126,7 @@ function Rocket() {
 }
 
 Rocket.prototype.move = function() {
-  this.x -= 10;
+  this.x -= 8;
 };
 
 //Create a second type of rockets that will move slower
@@ -175,8 +176,8 @@ function UserBar() {
   this.y = canvas.height - 80;
   this.img = new Image();
   this.img.src = "./images/HeartBar.png";
-  this.height = 60;
-  this.width = 60;
+  this.height = 60 * zoomFactor;
+  this.width = 60 * zoomFactor;
 }
 
 // UserBar.prototype.move = function (dx){
