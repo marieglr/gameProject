@@ -184,10 +184,6 @@ function UserBar() {
   this.width = 60 * zoomFactor;
 }
 
-// UserBar.prototype.move = function (dx){
-//   var x = (this.x + dx) % 1100;
-// }
-
 UserBar.prototype.shoot = function() {
   var newHeart = new Heart();
   hearts.push(newHeart);
@@ -260,7 +256,7 @@ var drawLoop = setInterval(function() {
       //If Trump loses face: GAME OVER
       if (trump.ego <= 0) {
         clearInterval(drawLoop);
-        timer = 00;
+        timer = 1;
       }
     }
 
@@ -277,7 +273,7 @@ var drawLoop = setInterval(function() {
       //if Kim loses face: GAME OVER - NUCLEAR WAR: YOUR KIDS WILL BE BORN WITH THREE LEGS AND ONLY ONE EYE
       if (kim.ego <= 0) {
         clearInterval(drawLoop);
-        timer = 00;
+        timer = 1;
       }
     }
 
@@ -310,7 +306,6 @@ var drawLoop = setInterval(function() {
 //-------------------------------------------------------------------------------------------------------------------
 var body = document.querySelector("body");
 body.onkeydown = e => {
-  // if (userBar.x >= 100 && userBar.x <= 1100){
   if (e.keyCode === 39) {
     if (userBar.x <= 1100) {
       userBar.x += 30;
