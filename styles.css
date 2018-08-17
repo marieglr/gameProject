@@ -18,23 +18,17 @@ body {
  }
 
  .container {
+   width: 1700px;
    display: flex;
    align-items: center;
    justify-content: space-around;
  }
 
- .image-box1{
-  padding-right: 10%;
- }
-
- .image-box2{
-  padding-left: 5%;
- }
 
 h1 {
   display: flex;
   justify-content: center;
-  color: #e92f32;
+  color:	#940000;
   background-color: rgba(255, 255, 255, 0.5);
   font-size: 50px;;
   text-shadow: -2px 2px grey;

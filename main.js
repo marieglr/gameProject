@@ -150,22 +150,33 @@ var tweets = [];
 var rockets = [];
 
   //This function adds amo in the array that will serve as a reserve for shootings
-function addProjectile() {
+function addTweets() {
   var newTweet = new Tweet();
   var newSlowTweet = new SlowTweet();
   tweets.push(newTweet);
   tweets.push(newSlowTweet);
+}
+
+function addRockets() {
   var newRocket = new Rocket();
   var newSlowRocket = new SlowRocket();
   rockets.push(newRocket);
   rockets.push(newSlowRocket);
 }
 
-  //This anonymous function randomly calls the addProjectile function (setInterval can only have regular interval, I want irregularity)
+  //This anonymous function randomly calls the addTweets and addRockets functions (setInterval can only have regular interval, I want irregularity)
 (function loop() {
     var rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
     setTimeout(function() {
-            addProjectile();
+            addTweets();
+            loop();
+    }, rand);
+}());
+
+(function loop() {
+    var rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
+    setTimeout(function() {
+            addRockets();
             loop();
     }, rand);
 }());
@@ -216,37 +227,68 @@ var game = setTimeout(function() {
   clearInterval(drawLoop);
 }, 90000);
 
+//function drawLoop (){
 var drawLoop = setInterval(function() {
-  //erase the old drawings
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  //redraw the background, the characters and user bar
-  draw(board);
-  draw(userBar);
-  draw(trump);
-  draw(kim);
+    //erase the old drawings
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  //Manage heart drawing and interaction with projectiles
-  hearts.forEach(function(oneHeart) {
-    //manage tweets interaction with hearts
-    tweets.forEach(function(oneTweet) {
-      if (collision(oneHeart, oneTweet)) {
-        oneTweet.isIntercepted = true;
-      }
+    //redraw the background, the characters and user bar
+    draw(board);
+    draw(userBar);
+    draw(trump);
+    draw(kim);
+
+    //Manage hearts, rockets and tweets drawing and collisions
+    heartsLogic();
+    rocketsLogic();
+    tweetsLogic();
+
+    //Redraw the ego points of each character after being hit
+    ctx.font = "30px 'Kanit'";
+    ctx.fillStyle = "#940000";
+    ctx.fillText("Ego level: " + trump.ego, 40, 30);
+    ctx.fillText("Ego level: " + kim.ego, kim.x - 100, 30);
+    ctx.strokeStyle = "#931f20";
+    ctx.strokeText("Ego level: " + trump.ego, 40, 30);
+    ctx.strokeText("Ego level: " + kim.ego, kim.x - 100, 30);
+
+    //erase tweets that have been intercepted by a heart
+    tweets = tweets.filter(function(oneTweet) {
+      return !oneTweet.isIntercepted;
     });
 
-    //manage rockets interaction with hearts
-    rockets.forEach(function(oneRocket) {
-      if (collision(oneHeart, oneRocket)) {
-        oneRocket.isIntercepted = true;
-      }
+    rockets = rockets.filter(function(oneRocket) {
+      return !oneRocket.isIntercepted;
     });
 
-    //Draw hearts
-    draw(oneHeart);
-    oneHeart.move();
-  });
+  }, 1000 / 60);
 
+
+  function heartsLogic(){
+        //Manage heart drawing and interaction with projectiles
+        hearts.forEach(function(oneHeart) {
+          //manage tweets interaction with hearts
+          tweets.forEach(function(oneTweet) {
+            if (collision(oneHeart, oneTweet)) {
+              oneTweet.isIntercepted = true;
+            }
+          });
+    
+          //manage rockets interaction with hearts
+          rockets.forEach(function(oneRocket) {
+            if (collision(oneHeart, oneRocket)) {
+              oneRocket.isIntercepted = true;
+            }
+          });
+    
+          //Draw hearts
+          draw(oneHeart);
+          oneHeart.move();
+        });
+  }
+
+function rocketsLogic(){
   //manage rockets drawings and interaction with target
   rockets.forEach(function(oneRocket) {
     if (collision(oneRocket, trump)) {
@@ -263,7 +305,9 @@ var drawLoop = setInterval(function() {
     draw(oneRocket);
     oneRocket.move();
   });
+}
 
+function tweetsLogic(){
   //manage tweets drawings and interaction with target
   tweets.forEach(function(oneTweet) {
     //if a tweet hits Kim, kim's ego gets damage
@@ -281,26 +325,8 @@ var drawLoop = setInterval(function() {
     draw(oneTweet);
     oneTweet.move();
   });
-
-  //Redraw the ego points of each character after being hit
-  ctx.font = "30px 'Kanit'";
-  ctx.fillStyle = "#f15b29";
-  ctx.fillText("Ego level: " + trump.ego, 40, 30);
-  ctx.fillText("Ego level: " + kim.ego, kim.x - 100, 30);
-  ctx.strokeStyle = "#931f20";
-  ctx.strokeText("Ego level: " + trump.ego, 40, 30);
-  ctx.strokeText("Ego level: " + kim.ego, kim.x - 100, 30);
-
-  //erase tweets that have been intercepted by a heart
-  tweets = tweets.filter(function(oneTweet) {
-    return !oneTweet.isIntercepted;
-  });
-
-  rockets = rockets.filter(function(oneRocket) {
-    return !oneRocket.isIntercepted;
-  });
-}, 1000 / 60);
-
+}
+//
 //-------------------------------------------------------------------------------------------------------------------
 //USER INPUT
 //-------------------------------------------------------------------------------------------------------------------
