@@ -20,7 +20,7 @@
       threatening each other and showing off their nuclear button.</p>
     <p>Who knows what one could do if he would completely lose face, having been publicly humiliated by the other? </p>
     <p>Protect their ego and encourage them in their recent effort of bonding
-       by spreading love to intercept their tweets and rockets.</p>
+      by spreading love to intercept their tweets and rockets.</p>
     <p>Use the arrow key to move and the space key to shoot.</p>
     <button>Start Game</button>
   </section>
@@ -31,27 +31,40 @@
       </h2>
     </div>
     <div class="container">
-    <div class="image-box1"><img src="images/DonaldFace.png" alt="Donald's face mask" height="150"></div>
-    <canvas id="gameboard"></canvas>
-    <div class="image-box2"><img src="images/KimFace.png" alt="Kim's face mask" height="150"></div>
-  </div>
+      <div class="image-box1">
+        <h3>Trump's mood</h3>
+        <meter id="trump-ego" value="100" min="0" low="25" high="75" max="100" optimum="100"></meter>
+        <img src="images/DonaldFace.png" alt="Donald's face mask" height="150">
+      </div>
+      <canvas id="gameboard"></canvas>
+      <div class="image-box2">
+        <h3>Kim's mood</h3>
+        <img src="images/KimFace.png" alt="Kim's face mask" height="150">
+        <meter id="kim-ego" value="100" min="0" low="25" high="75" max="100" optimum="100"></meter>
+      </div>
+    </div>
   </section>
 
   <section id="user-win">
     <p>Thank You for your dedication to cross-border love and understanding!</p>
-    <iframe src="https://giphy.com/embed/26xBOVNvTYppStULC" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    <iframe src="https://giphy.com/embed/26xBOVNvTYppStULC" width="480" height="270" frameBorder="0" class="giphy-embed"
+      allowFullScreen></iframe>
   </section>
 
   <section id="trump-loses">
-      <iframe src="https://giphy.com/embed/I82fRIuPf9vjy" width="480" height="362" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    <iframe src="https://giphy.com/embed/I82fRIuPf9vjy" width="480" height="362" frameBorder="0" class="giphy-embed"
+      allowFullScreen></iframe>
   </section>
 
   <section id="kim-loses">
-      <iframe src="https://giphy.com/embed/l6Encq5XXx1Pq" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    <iframe src="https://giphy.com/embed/l6Encq5XXx1Pq" width="480" height="480" frameBorder="0" class="giphy-embed"
+      allowFullScreen></iframe>
   </section>
 
 
-
+  <footer>
+    <p>Made with love at Ironhack by Marie ❤</p>
+  </footer>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="main.js"></script>
