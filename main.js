@@ -27,9 +27,10 @@ var board = new Board();
 
 //Timer
 var timer = 90;
+var timerSpan = document.getElementById("timer-span");
 var timerInterval = setInterval(function() {
   timer--;
-  $(".timer span").text(timer);
+  timerSpan.innerHTML = timer;
   if (timer <= 0) {
     clearInterval(timerInterval);
   }
@@ -128,6 +129,7 @@ Rocket.prototype.move = function() {
 
 //Create a second type of rockets that will move slower
 SlowRocket.prototype = Object.create(Rocket.prototype);
+
 function SlowRocket(x, img, width, height, isIntercepted) {
   Rocket.call(this, x, img, width, height, isIntercepted);
   this.y = kim.y + 30;
@@ -156,7 +158,7 @@ function addRockets() {
   rockets.push(newSlowRocket);
 }
 
-//This anonymous function randomly calls the addTweets and addRockets functions (setInterval can only have regular interval, I want irregularity)
+//This self-calling function randomly calls the addTweets and addRockets functions (setInterval can only have regular interval, I want irregularity)
 (function loop() {
   var rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
   setTimeout(function() {
@@ -214,12 +216,12 @@ Heart.prototype.move = function() {
 //GAME LOGIC AND VISUALS
 //----------------------------------------------------------------------------------------------------------
 
-//If the user manage to keep the game going on for 2 min without having the characters lose face, he wins yay yay!
+//If the user manages to keep the game going on for 2 min without having the characters lose their temper, he wins yay yay!
 var game = setTimeout(function() {
   clearInterval(drawLoop);
 }, 90000);
 
-//function drawLoop (){
+//Draw loop (){
 var drawLoop = setInterval(function() {
   //erase the old drawings
   ctx.clearRect(0, 0, canvas.width, canvas.height);
