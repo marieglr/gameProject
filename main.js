@@ -3,13 +3,13 @@
 //------------------------------------------------------------------------------------------------------------------------
 
 //Settings
-var zoomFactor = 0.8;
-var slowSpeed = 2;
-var highSpeed = 7;
+const zoomFactor = 0.8;
+const slowSpeed = 2;
+const highSpeed = 7;
 
 //Initialising the canvas
-var canvas = document.getElementById("gameboard");
-var ctx = canvas.getContext("2d");
+const canvas = document.getElementById("gameboard");
+const ctx = canvas.getContext("2d");
 canvas.width = 1200 * zoomFactor;
 canvas.height = 600 * zoomFactor;
 
@@ -23,14 +23,14 @@ function Board() {
   this.width = canvas.width;
 }
 
-var board = new Board();
+const board = new Board();
 
 //Timer
-var timer = 90;
-var timerSpan = document.getElementById("timer-span");
-var timerInterval = setInterval(function() {
+let timer = 90;
+const timerSpan = document.getElementById("timer-span");
+const timerInterval = setInterval(function() {
   timer--;
-  timerSpan.innerHTML = timer;
+  timerSpan.textContent = timer;
   if (timer <= 0) {
     clearInterval(timerInterval);
   }
@@ -70,16 +70,16 @@ function Character(x, img, imgWidth) {
 
 // Characters creation
 //Load image for Trump
-var trumpimg = new Image();
+const trumpimg = new Image();
 trumpimg.src = "images/Trump.png";
 //creation of Trump
-var trump = new Character(25, trumpimg, 147);
+const trump = new Character(25, trumpimg, 147);
 
 //Load image for Kim
-var kimimg = new Image();
+const kimimg = new Image();
 kimimg.src = "images/KimCharacter.png";
 //creation of Kim
-var kim = new Character(canvas.width - 150, kimimg, 122);
+const kim = new Character(canvas.width - 150, kimimg, 122);
 
 //------------------------------------------------------------------------------------------------------------------------
 //CHARACTERS PROJECTILES
@@ -140,27 +140,27 @@ SlowRocket.prototype.move = function() {
 };
 
 //HAVE THE CHARACTERS RANDOMLY SHOOT PROJECTILES
-var tweets = [];
-var rockets = [];
+let tweets = [];
+let rockets = [];
 
 //This function adds amo in the array that will serve as a reserve for shootings
 function addTweets() {
-  var newTweet = new Tweet();
-  var newSlowTweet = new SlowTweet();
+  const newTweet = new Tweet();
+  const newSlowTweet = new SlowTweet();
   tweets.push(newTweet);
   tweets.push(newSlowTweet);
 }
 
 function addRockets() {
-  var newRocket = new Rocket();
-  var newSlowRocket = new SlowRocket();
+  const newRocket = new Rocket();
+  const newSlowRocket = new SlowRocket();
   rockets.push(newRocket);
   rockets.push(newSlowRocket);
 }
 
 //This self-calling function randomly calls the addTweets and addRockets functions (setInterval can only have regular interval, I want irregularity)
 (function loop() {
-  var rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
+  const rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
   setTimeout(function() {
     addTweets();
     loop();
@@ -168,7 +168,7 @@ function addRockets() {
 })();
 
 (function loop() {
-  var rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
+  const rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
   setTimeout(function() {
     addRockets();
     loop();
@@ -190,13 +190,13 @@ function UserBar() {
 }
 
 UserBar.prototype.shoot = function() {
-  var newHeart = new Heart();
+  const newHeart = new Heart();
   hearts.push(newHeart);
 };
 
 //Creation of the userBar
-var userBar = new UserBar();
-var hearts = [];
+const userBar = new UserBar();
+const hearts = [];
 
 //Heart Projectile Object and methods
 function Heart() {
@@ -217,12 +217,12 @@ Heart.prototype.move = function() {
 //----------------------------------------------------------------------------------------------------------
 
 //If the user manages to keep the game going on for 2 min without having the characters lose their temper, he wins yay yay!
-var game = setTimeout(function() {
+const game = setTimeout(function() {
   clearInterval(drawLoop);
 }, 90000);
 
 //Draw loop (){
-var drawLoop = setInterval(function() {
+const drawLoop = setInterval(function() {
   //erase the old drawings
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -315,7 +315,7 @@ function tweetsLogic() {
 //-------------------------------------------------------------------------------------------------------------------
 //USER INPUT
 //-------------------------------------------------------------------------------------------------------------------
-var body = document.querySelector("body");
+const body = document.querySelector("body");
 body.onkeydown = e => {
   if (e.keyCode === 39) {
     if (userBar.x <= 1100) {
