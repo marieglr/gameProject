@@ -14,13 +14,15 @@ canvas.width = 1200 * zoomFactor;
 canvas.height = 600 * zoomFactor;
 
 //creating the board
-function Board() {
-  this.x = 0;
-  this.y = 0;
-  this.img = new Image();
-  this.img.src = "images/mapclaire.jpg";
-  this.height = canvas.height;
-  this.width = canvas.width;
+class Board {
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+    this.img = new Image();
+    this.img.src = "images/mapclaire.jpg";
+    this.height = canvas.height;
+    this.width = canvas.width;
+  }
 }
 
 const board = new Board();
@@ -59,16 +61,19 @@ function collision(objA, objB) {
 //CHARACTER METHODS
 //------------------------------------------------------------------------------------------------------------------------
 
-function Character(x, img, imgWidth) {
-  this.x = x;
-  this.y = 80;
-  this.ego = 100;
-  this.img = img;
-  this.width = imgWidth * zoomFactor;
-  this.height = 150 * zoomFactor;
+class Character {
+  constructor(x, img, imgWidth) {
+    this.x = x;
+    this.y = 80;
+    this.ego = 100;
+    this.img = img;
+    this.width = imgWidth * zoomFactor;
+    this.height = 150 * zoomFactor;
+  }
 }
 
 // Characters creation
+
 //Load image for Trump
 const trumpimg = new Image();
 trumpimg.src = "images/Trump.png";
@@ -86,58 +91,64 @@ const kim = new Character(canvas.width - 150, kimimg, 122);
 //------------------------------------------------------------------------------------------------------------------------
 
 //TWEETS object and methods
-function Tweet() {
-  this.x = trump.x + trump.width + 5;
-  this.y = trump.y + 25;
-  this.img = new Image();
-  this.img.src = "./images/Logo-Twitter.png";
-  this.height = 24;
-  this.width = 30;
-  this.isIntercepted = false;
-}
+class Tweet {
+  constructor() {
+    this.x = trump.x + trump.width + 5;
+    this.y = trump.y + 25;
+    this.img = new Image();
+    this.img.src = "./images/Logo-Twitter.png";
+    this.height = 24;
+    this.width = 30;
+    this.isIntercepted = false;
+  }
 
-Tweet.prototype.move = function() {
-  this.x += highSpeed;
-};
+  move() {
+    this.x += highSpeed;
+  }
+}
 
 //Create a second type of tweets that will move slower
-SlowTweet.prototype = Object.create(Tweet.prototype);
 
-function SlowTweet(x, img, width, height, isIntercepted) {
-  Tweet.call(this, x, img, width, height, isIntercepted);
-  this.y = trump.y + 45;
+class SlowTweet extends Tweet {
+  constructor(x, img, width, height, isIntercepted) {
+    super(x, img, width, height, isIntercepted);
+    this.y = trump.y + 45;
+  }
+
+  move() {
+    this.x += slowSpeed;
+  }
 }
-
-SlowTweet.prototype.move = function() {
-  this.x += slowSpeed;
-};
 
 //ROCKETS object and methods
-function Rocket() {
-  this.x = kim.x;
-  this.y = kim.y + 75;
-  this.img = new Image();
-  this.img.src = "./images/Rocket.png";
-  this.width = 30;
-  this.height = 30;
-  this.isIntercepted = false;
-}
+class Rocket {
+  constructor() {
+    this.x = kim.x;
+    this.y = kim.y + 75;
+    this.img = new Image();
+    this.img.src = "./images/Rocket.png";
+    this.width = 30;
+    this.height = 30;
+    this.isIntercepted = false;
+  }
 
-Rocket.prototype.move = function() {
-  this.x -= highSpeed;
-};
+  move() {
+    this.x -= highSpeed;
+  }
+}
 
 //Create a second type of rockets that will move slower
-SlowRocket.prototype = Object.create(Rocket.prototype);
 
-function SlowRocket(x, img, width, height, isIntercepted) {
-  Rocket.call(this, x, img, width, height, isIntercepted);
-  this.y = kim.y + 30;
+class SlowRocket extends Rocket {
+  constructor(x, img, width, height, isIntercepted) {
+    super(x, img, width, height, isIntercepted);
+    this.y = kim.y + 30;
+  }
+
+  move() {
+    this.x -= slowSpeed;
+  }
 }
-
-SlowRocket.prototype.move = function() {
-  this.x -= slowSpeed;
-};
 
 //HAVE THE CHARACTERS RANDOMLY SHOOT PROJECTILES
 let tweets = [];
@@ -180,37 +191,41 @@ function addRockets() {
 //------------------------------------------------------------------------------------------------------------------------
 
 //User Bar Prototype
-function UserBar() {
-  this.x = canvas.width / 2;
-  this.y = canvas.height - 80;
-  this.img = new Image();
-  this.img.src = "./images/HeartBar.png";
-  this.height = 60 * zoomFactor;
-  this.width = 60 * zoomFactor;
-}
+class UserBar {
+  constructor() {
+    this.x = canvas.width / 2;
+    this.y = canvas.height - 80;
+    this.img = new Image();
+    this.img.src = "./images/HeartBar.png";
+    this.height = 60 * zoomFactor;
+    this.width = 60 * zoomFactor;
+  }
 
-UserBar.prototype.shoot = function() {
-  const newHeart = new Heart();
-  hearts.push(newHeart);
-};
+  shoot() {
+    const newHeart = new Heart();
+    hearts.push(newHeart);
+  }
+}
 
 //Creation of the userBar
 const userBar = new UserBar();
 const hearts = [];
 
 //Heart Projectile Object and methods
-function Heart() {
-  this.x = userBar.x;
-  this.y = userBar.y;
-  this.img = new Image();
-  this.img.src = "./images/like.png";
-  this.width = 30;
-  this.height = 30;
-}
+class Heart {
+  constructor() {
+    this.x = userBar.x;
+    this.y = userBar.y;
+    this.img = new Image();
+    this.img.src = "./images/like.png";
+    this.width = 30;
+    this.height = 30;
+  }
 
-Heart.prototype.move = function() {
-  this.y -= 15;
-};
+  move() {
+    this.y -= 15;
+  }
+}
 
 //----------------------------------------------------------------------------------------------------------
 //GAME LOGIC AND VISUALS

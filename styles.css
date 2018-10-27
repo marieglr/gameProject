@@ -62,26 +62,25 @@ h3 {
   font-size: 1.5em;
 }
 
-#start-message,
-#user-win,
+/* #user-win,
 #trump-loses,
 #kim-loses {
-}
-
-#start-message {
   display: none;
-}
+} */
 
 #user-win {
-  display: none;
+  display: block;
 }
 
 #trump-loses {
-  display: none;
+  display: block;
 }
 
-#kim-loses {
+#user-loses {
   display: none;
+  position: absolute;
+  top: 330px;
+  left: 400px;
 }
 
 .timer {
