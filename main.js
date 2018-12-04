@@ -169,20 +169,20 @@ function addRockets() {
   rockets.push(newSlowRocket);
 }
 
-//This self-calling function randomly calls the addTweets and addRockets functions (setInterval can only have regular interval, I want irregularity)
-(function loop() {
+//This self-calling function calls the addTweets and addRockets functions with randomIntervals
+(function tweetLoop() {
   const rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
   setTimeout(function() {
     addTweets();
-    loop();
+    tweetLoop();
   }, rand);
 })();
 
-(function loop() {
+(function rocketLoop() {
   const rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
   setTimeout(function() {
     addRockets();
-    loop();
+    rocketLoop();
   }, rand);
 })();
 

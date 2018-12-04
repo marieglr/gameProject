@@ -62,27 +62,6 @@ h3 {
   font-size: 1.5em;
 }
 
-/* #user-win,
-#trump-loses,
-#kim-loses {
-  display: none;
-} */
-
-#user-win {
-  display: block;
-}
-
-#trump-loses {
-  display: block;
-}
-
-#user-loses {
-  display: none;
-  position: absolute;
-  top: 330px;
-  left: 400px;
-}
-
 .timer {
   background-color: black;
   width: 220px;
